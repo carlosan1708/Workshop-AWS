@@ -1,0 +1,40 @@
+version: '3'
+services:
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack:3.2
+    ports:
+      - "4566:4566"
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEBUG=0
+      - HOSTNAME_EXTERNAL=localstack
+      - HOSTNAME=localstack
+      - LOCALSTACK_HOST=localhost
+      - LS_LOG=error
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  create-resources:
+    restart: "no"
+    image: amazon/aws-cli:2.11.0
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=x
+      - AWS_SECRET_ACCESS_KEY=x
+    entrypoint: [ "sh", "-c" ]
+    volumes:
+      - "./:/data"
+    command: [ "aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket sample-bucket &&
+                aws --endpoint-url=http://localstack:4566 s3 cp /data/dog.jpeg s3://sample-bucket" ]
+  service_a:
+    build:
+      context: .
+      dockerfile: Dockerfile.service_a
+    depends_on:
+      create-resources:
+        condition: service_completed_successfully

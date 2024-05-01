@@ -1,0 +1,13 @@
+FROM node:20.11.1-alpine
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV localstack_endpoint='http://localstack:4566'
+
+CMD ["node", "serviceC.js"]

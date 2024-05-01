@@ -1,0 +1,12 @@
+{
+    "name": "cargill-workshop",
+    "version": "1.0.0",
+    "scripts": {
+        "startB": "localstack_endpoint='http://localhost:4566' node serviceB.js",
+        "startA": "localstack_endpoint='http://localhost:4566' node serviceA.js",
+        "startC": "localstack_endpoint='http://localhost:4566' node serviceC.js"
+    },
+    "dependencies": {
+        "@aws-sdk/client-sqs": "3.515.0"
+    }
+  }

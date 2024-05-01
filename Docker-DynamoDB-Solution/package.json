@@ -1,0 +1,9 @@
+{
+    "name": "workshop",
+    "version": "1.0.0",
+    "main": "serviceB",
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "3.515.0",
+        "@aws-sdk/lib-dynamodb": "3.515.0"
+    }
+  }

@@ -1,0 +1,11 @@
+{
+    "name": "cargill-workshop",
+    "version": "1.0.0",
+    "scripts": {
+        "startA": "localstack_endpoint='http://localhost:4566' nodemon --exec node serviceA.js"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "3.515.0",
+        "@aws-sdk/s3-request-presigner": "3.515.0"
+    }
+  }

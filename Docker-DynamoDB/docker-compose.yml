@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack:3.2
+    ports:
+      - "4566:4566"
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEBUG=0
+      - HOSTNAME_EXTERNAL=localstack
+      - HOSTNAME=localstack
+      - LOCALSTACK_HOST=localhost
+      - LS_LOG=error
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  service_setup:
+    build:
+      context: .
+      dockerfile: Dockerfile.service_setup
+    depends_on:
+      localstack:
+        condition: service_healthy
