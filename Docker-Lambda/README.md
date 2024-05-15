@@ -31,10 +31,10 @@ At the end a URL for a website should appear
 
 Exercise:
 
-1 - Stop docker
-2 - Inside imageTransformation, modify the code so it accepts an image with "toRed" in it's name and make it a red scale image. Look for getAndTransformObject , you need to put the code there
-3 - Move the code to the lambda.js file, zip it with the node modules 
-4 - Paste the following command ```docker-compose build --no-cache lambda_setup``` 
-5 - Paste the following command ```docker compose up ``` 
-6 - Website should be able to accept images that has _toRed and transform it, while keeping the original
+1. Stop docker
+2. Inside imageTransformation, modify the code so it accepts an image with "toRed" in it's name and make it a red scale image. Look for getAndTransformObject , you need to put the code there
+3. Move the code to the lambda.js file, zip it with the node modules 
+4. Paste the following command ```docker-compose build --no-cache lambda_setup``` 
+5. Paste the following command ```docker compose up ``` 
+6. Website should be able to accept images that has _toRed and transform it, while keeping the original
 
