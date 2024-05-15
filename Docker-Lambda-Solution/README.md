@@ -1,27 +1,40 @@
-zip api-handler.zip lambda.js
-
 
 Explanation 
 
-For context, using LocalStack for Lambda is complicated, however this does the work but it requires some extra work and it's complicated.
-
 For this architecture, we will have a docker compose that does the following:
-- Docker file called Dockerfile.service_setup which is the entry point of the lambda
-  - There is also an entrypoint.sh which has the instructions to create the lambda. It will use the api-handler.zip which will contain the lambda function, pretty much is a simple handler from nodeJS, contains inside the lambda.js
+- S3 Bucket called: sample-bucket
+- Uploading an image called: dog.png
+- A next project, called lambda-workshop
+  - Let the user upload an image to an S3 bucket and queries and shows what's inside the S3.
+- A lambda function that takes a image and put in a different color
+- An script called imageTransformation useful for testing
 
 Preparation 
 
 Start by running:
 
 1. docker rm localstack_main -f
-2. docker compose up
-3. npm install
-4. npm run start
-5. Do a post request to http://localhost:3000/callAPI using a payload like:
+2. docker compose up 
 
-{
-    "targetURL": "http://localhost:4566/restapis/smuxbnfw9y/test/_user_request_/test-lambda",
-    "targetBody": "hello"
-}
-6. To change what the lambda does, change lambda.js and zip again with the exact same name both the file and the zip. Then repeat the steps 1,2, 5 .
-Where the targetURL is printed once the docker compose up is finished
+Open client in a new terminal
+
+Run:
+
+cd lambda-workshop
+
+npm install
+
+npm run dev
+
+At the end a URL for a website should appear 
+
+
+Exercise:
+
+1 - Stop docker
+2 - Inside imageTransformation, modify the code so it accepts an image with "toRed" in it's name and make it a red scale image. Look for getAndTransformObject , you need to put the code there
+3 - Move the code to the lambda.js file, zip it with the node modules 
+4 - Paste the following command ```docker-compose build --no-cache lambda_setup``` 
+5 - Paste the following command ```docker compose up ``` 
+6 - Website should be able to accept images that has _toRed and transform it, while keeping the original
+

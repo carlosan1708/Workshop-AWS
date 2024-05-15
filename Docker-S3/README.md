@@ -3,7 +3,7 @@ Explanation
 
 For this architecture, we will have a docker compose that does the following:
 - S3 Bucket called: sample-bucket
-- Uploading an image called: cargill.png
+- Uploading an image called: dog.png
 - Service A: It's the service that uploads every 30 seconds a file called with a uuid.txt
 
 Preparation 

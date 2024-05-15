@@ -1,0 +1,47 @@
+version: '3'
+    
+services:
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=${SERVICES-lambda,dynamodb,s3 }
+      - DEBUG=${DEBUG- }
+      - DATA_DIR=${DATA_DIR- }
+      - PORT_WEB_UI=${PORT_WEB_UI- }
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse }
+      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      
+  create-resources:
+    restart: "no"
+    image: amazon/aws-cli:2.11.0
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=x
+      - AWS_SECRET_ACCESS_KEY=x
+    entrypoint: [ "sh", "-c" ]
+    volumes:
+      - "./:/data"
+    command: [ "aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket sample-bucket &&
+                aws --endpoint-url=http://localstack:4566 s3 cp /data/dog.jpeg s3://sample-bucket" ]
+      
+  lambda_setup:
+    build:
+      dockerfile: Dockerfile.lambda_setup
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    volumes:
+      - ".:/app"
+    depends_on:
+      create-resources:
+        condition: service_completed_successfully
+
+ 
+
