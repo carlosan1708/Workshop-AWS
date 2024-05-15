@@ -22,10 +22,6 @@ const transformToGrey = async(inputBuffer) =>{
     return await sharp(inputBuffer).grayscale().toBuffer();
 }
 
-const transformToRed = async(inputBuffer) =>{
-    return await sharp(inputBuffer).tint({ r: 255, g: 0, b: 0 }).toBuffer();
-}
-
 const transformToColorImage = async (key, bucket) => {
     const getObjectParams = {
         Bucket: bucket,
@@ -43,10 +39,7 @@ const transformToColorImage = async (key, bucket) => {
             chunks.push(chunk);
         }
         const inputBuffer = Buffer.concat(chunks);
-
-        if (key.includes("toRed")) {
-            return transformToRed(inputBuffer)
-        }
+     
         if (key.includes("toGrey")) {
             return transformToGrey(inputBuffer)
         }
