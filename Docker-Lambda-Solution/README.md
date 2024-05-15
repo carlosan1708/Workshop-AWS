@@ -15,6 +15,8 @@ Start by running:
 
 1. docker rm localstack_main -f
 2. docker compose up 
+3. (For Mac) npm install --os=linux --cpu=x64 sharp
+3.1. (For Windows) npm install --os=win32 --cpu=x64 sharp
 
 Open client in a new terminal
 
@@ -37,4 +39,5 @@ Exercise:
 4. Paste the following command ```docker-compose build --no-cache lambda_setup``` 
 5. Paste the following command ```docker compose up ``` 
 6. Website should be able to accept images that has _toRed and transform it, while keeping the original
+
 
